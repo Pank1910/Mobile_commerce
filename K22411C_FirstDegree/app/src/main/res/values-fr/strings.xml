@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Équation du premier degré</string>
+    <string name="title_app">Équation du premier degré</string>
+    <string name="title_coefficient_a">Coefficient a:</string>
+    <string name="title_coefficient_b">Coefficient b:</string>
+    <string name="title_solution">Résoudre</string>
+    <string name="title_next">Continuer</string>
+    <string name="title_exit">Quitter</string>
+    <string name="title_result">Résultat:</string>
+    <string name="title_infinity">Infinity!</string>
+    <string name="title_no_solution">No Solution!</string>
+
+</resources>
