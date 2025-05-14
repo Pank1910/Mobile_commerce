@@ -13,9 +13,16 @@
         android:theme="@style/Theme.K22411CSampleProject"
         tools:targetApi="31">
         <activity
+            android:name=".CustomerManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EmployeeHealthCareActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoginActivity"
-            android:exported="true" >
-<!--        có intent-filter nên màn hình này chạy trước-->
+            android:exported="true">
+
+            <!-- có intent-filter nên màn hình này chạy trước -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,8 +31,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".EmployeeManagementActivity"
             android:exported="false" />

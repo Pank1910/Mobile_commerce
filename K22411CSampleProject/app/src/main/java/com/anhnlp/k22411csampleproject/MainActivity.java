@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
 
     ImageView imgEmployee;
     TextView txtEmployee;
+    ImageView imgCustomer;
+    TextView txtCustomer;
 
 
     @Override
@@ -47,6 +49,18 @@ public class MainActivity extends AppCompatActivity {
                 openEmployeeManagementActivity();
             }
         });
+        imgCustomer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCustomerManagementActivity();
+            }
+        });
+        txtCustomer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCustomerManagementActivity();
+            }
+        });
     }
     void openEmployeeManagementActivity()
     {
@@ -54,9 +68,16 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    void openCustomerManagementActivity()
+    {
+        Intent intent=new Intent(MainActivity.this, CustomerManagementActivity.class);
+        startActivity(intent);
+    }
+
     private void addViews() {
         imgEmployee=findViewById(R.id.imgEmployee);
         txtEmployee=findViewById(R.id.txtEmployee);
-
+        imgCustomer=findViewById(R.id.imgCustomer);
+        txtCustomer=findViewById(R.id.txtCustomer);
     }
 }
