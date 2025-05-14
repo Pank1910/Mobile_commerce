@@ -12,20 +12,20 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.anhnlp.connectors.CustomerConnector;
-import com.anhnlp.models.Customer;
+import com.anhnlp.connectors.ProductConnector;
+import com.anhnlp.models.Product;
 
-public class CustomerManagementActivity extends AppCompatActivity {
+public class ProductManagementActivity extends AppCompatActivity {
 
-    ListView lvCustomer;
-    ArrayAdapter<Customer> adapter;
-    CustomerConnector connector;
+    ListView lvProduct;
+    ArrayAdapter<Product> adapter;
+    ProductConnector connector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_customer_management);
+        setContentView(R.layout.activity_product_management);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -33,14 +33,13 @@ public class CustomerManagementActivity extends AppCompatActivity {
         });
         addViews();
         addEvents();
-
     }
 
     private void addEvents() {
-        lvCustomer.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        lvProduct.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int i, long l) {
-                Customer selected=adapter.getItem(i);
+                Product selected = adapter.getItem(i);
                 adapter.remove(selected);
                 return false;
             }
@@ -48,13 +47,11 @@ public class CustomerManagementActivity extends AppCompatActivity {
     }
 
     private void addViews() {
-//        list view là laptop, adapter là cục sạc
-        lvCustomer=findViewById(R.id.lvCustomer);
-        adapter=new ArrayAdapter<>(CustomerManagementActivity.this,
+        lvProduct = findViewById(R.id.lvProduct);
+        adapter = new ArrayAdapter<>(ProductManagementActivity.this,
                 android.R.layout.simple_list_item_1);
-        connector=new CustomerConnector();
-        adapter.addAll(connector.get_all_customers());
-//        đổ điện vô cục sạc -> cục sạc vô laptop
-        lvCustomer.setAdapter(adapter);
+        connector = new ProductConnector();
+        adapter.addAll(connector.get_all_products());
+        lvProduct.setAdapter(adapter);
     }
 }
