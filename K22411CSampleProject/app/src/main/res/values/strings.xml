@@ -11,4 +11,16 @@
     <string name="confirm_exit_no">NO</string>
     <string name="title_employee">Employee</string>
     <string name="title_customer">Customer</string>
+    <string name="title_healthcare">Health Care</string>
+    <string name="title_salary">Salary</string>
+    <string name="title_employee_healthcare">Employee Healthcare</string>
+    <string name="title_height">Height:</string>
+    <string name="title_weight">Weight:</string>
+    <string name="title_calculate">Calculate</string>
+    <string name="title_clear">Clear</string>
+    <string name="title_close">Close</string>
+    <string name="title_slim">Slim</string>
+    <string name="title_normal">Normal</string>
+    <string name="title_fat">FAT</string>
+
 </resources>
