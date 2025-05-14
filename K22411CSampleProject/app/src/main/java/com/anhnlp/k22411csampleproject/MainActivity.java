@@ -18,6 +18,10 @@ public class MainActivity extends AppCompatActivity {
     TextView txtEmployee;
     ImageView imgCustomer;
     TextView txtCustomer;
+    ImageView imgCategory;
+    TextView txtCategory;
+    ImageView imgProduct;
+    TextView txtProduct;
 
 
     @Override
@@ -61,6 +65,30 @@ public class MainActivity extends AppCompatActivity {
                 openCustomerManagementActivity();
             }
         });
+        imgCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCategoryManagementActivity();
+            }
+        });
+        txtCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCategoryManagementActivity();
+            }
+        });
+        imgProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openProductManagementActivity();
+            }
+        });
+        txtProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openProductManagementActivity();
+            }
+        });
     }
     void openEmployeeManagementActivity()
     {
@@ -73,11 +101,25 @@ public class MainActivity extends AppCompatActivity {
         Intent intent=new Intent(MainActivity.this, CustomerManagementActivity.class);
         startActivity(intent);
     }
+    void openCategoryManagementActivity()
+    {
+        Intent intent=new Intent(MainActivity.this, CategoryManagementActivity.class);
+        startActivity(intent);
+    }
+    void openProductManagementActivity()
+    {
+        Intent intent=new Intent(MainActivity.this, ProductManagementActivity.class);
+        startActivity(intent);
+    }
 
     private void addViews() {
         imgEmployee=findViewById(R.id.imgEmployee);
         txtEmployee=findViewById(R.id.txtEmployee);
         imgCustomer=findViewById(R.id.imgCustomer);
         txtCustomer=findViewById(R.id.txtCustomer);
+        imgCategory=findViewById(R.id.imgCategory);
+        txtCategory=findViewById(R.id.txtCategory);
+        imgProduct=findViewById(R.id.imgProduct);
+        txtProduct=findViewById(R.id.txtProduct);
     }
 }
