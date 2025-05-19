@@ -14,12 +14,14 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.anhnlp.connectors.CustomerConnector;
 import com.anhnlp.models.Customer;
+import com.anhnlp.models.Product;
 
 public class CustomerManagementActivity extends AppCompatActivity {
 
     ListView lvCustomer;
     ArrayAdapter<Customer> adapter;
     CustomerConnector connector;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,5 +58,6 @@ public class CustomerManagementActivity extends AppCompatActivity {
         adapter.addAll(connector.get_all_customers());
 //        đổ điện vô cục sạc -> cục sạc vô laptop
         lvCustomer.setAdapter(adapter);
+
     }
 }

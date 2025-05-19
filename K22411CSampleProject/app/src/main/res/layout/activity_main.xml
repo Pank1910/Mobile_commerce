@@ -80,7 +80,7 @@
                     android:id="@+id/txtCategory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/title_category"
+                    android:text="@string/title_product"
                     android:textAlignment="center"
                     android:textColor="#009688"
                     android:textSize="24sp" />
@@ -101,12 +101,13 @@
                     android:id="@+id/txtProduct"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/title_product"
+                    android:text="@string/title_advancedproduct"
                     android:textAlignment="center"
                     android:textColor="#009688"
                     android:textSize="24sp" />
             </LinearLayout>
         </TableRow>
+
 
         <TableRow
             android:layout_width="match_parent"

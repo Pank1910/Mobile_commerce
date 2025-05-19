@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     TextView txtProduct;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,13 +81,13 @@ public class MainActivity extends AppCompatActivity {
         imgProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openProductManagementActivity();
+//                openProductManagementActivity();
             }
         });
         txtProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openProductManagementActivity();
+//                openProductManagementActivity();
             }
         });
     }
@@ -106,11 +107,11 @@ public class MainActivity extends AppCompatActivity {
         Intent intent=new Intent(MainActivity.this, CategoryManagementActivity.class);
         startActivity(intent);
     }
-    void openProductManagementActivity()
-    {
-        Intent intent=new Intent(MainActivity.this, ProductManagementActivity.class);
-        startActivity(intent);
-    }
+//    void openProductManagementActivity()
+//    {
+//        Intent intent=new Intent(MainActivity.this, ProductManagementActivity.class);
+//        startActivity(intent);
+//    }
 
     private void addViews() {
         imgEmployee=findViewById(R.id.imgEmployee);

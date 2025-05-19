@@ -9,7 +9,7 @@
     tools:context=".ProductManagementActivity">
 
     <ListView
-        android:id="@+id/lvProduct"
+        android:id="@+id/lvCategory"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:listSelector="@color/design_default_color_primary" />
