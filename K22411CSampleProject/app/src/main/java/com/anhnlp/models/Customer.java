@@ -76,6 +76,6 @@ public class Customer implements Serializable {
     @Override
     public String toString() {
         String info=id+"-"+name+"\n"+email+"\n"+phone;
-        return super.toString();
+        return info;
     }
 }

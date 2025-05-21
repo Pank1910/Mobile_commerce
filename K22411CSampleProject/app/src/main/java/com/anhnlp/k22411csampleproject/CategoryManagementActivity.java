@@ -1,13 +1,19 @@
 package com.anhnlp.k22411csampleproject;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -17,6 +23,8 @@ import com.anhnlp.connectors.CategoryConnector;
 import com.anhnlp.models.Category;
 import com.anhnlp.models.ListCategory;
 import com.anhnlp.models.Product;
+
+import java.util.List;
 
 public class CategoryManagementActivity extends AppCompatActivity {
 
@@ -55,6 +63,18 @@ public class CategoryManagementActivity extends AppCompatActivity {
             }
         });
 
+        lvCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Product p = adapterProduct.getItem(position);
+                if (p != null) {
+                    displayProductDetailActivity(p);
+                } else {
+                    Toast.makeText(CategoryManagementActivity.this, "Sản phẩm không hợp lệ", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 //        lvCategory.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 //            @Override
 //            public boolean onItemLongClick(AdapterView<?> parent, View view, int i, long l) {
@@ -64,6 +84,23 @@ public class CategoryManagementActivity extends AppCompatActivity {
 //            }
 //        });
     }
+
+//    private void addEvents() {
+//        lvCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
+//                Product p = adapterProduct.getItem(i);
+//                displayProductDetailActivity(p);
+//            }
+//        });
+//    }
+
+    private void displayProductDetailActivity(Product p) {
+        Intent intent = new Intent(CategoryManagementActivity.this, ProductDetailActivity.class);
+        intent.putExtra("SELECTED_PRODUCT", p);
+        startActivity(intent);
+    }
+
 
     private void displayProductsByCategory(Category c) {
 //        xóa dữ liêụ cũ trong listview đi
@@ -87,8 +124,38 @@ public class CategoryManagementActivity extends AppCompatActivity {
         lvCategory = findViewById(R.id.lvCategory);
         adapterProduct = new ArrayAdapter<>(CategoryManagementActivity.this,
                 android.R.layout.simple_list_item_1);
-//        connector = new CategoryConnector();
-//        adapterCategory.addAll(connector.get_all_categories());
+        connector = new CategoryConnector();
+        try {
+            List<Category> products = connector.get_all_categories();
+            if (products != null && !products.isEmpty()) {
+                adapterCategory.addAll(products);
+            } else {
+                Toast.makeText(this, "Không có sản phẩm nào", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Lỗi khi lấy dữ liệu sản phẩm: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
         lvCategory.setAdapter(adapterProduct);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.option_menu_product, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.menu_new_product) {
+            Toast.makeText(CategoryManagementActivity.this, "Mở màn hình thêm mới sản phẩm", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(CategoryManagementActivity.this, ProductDetailActivity.class);
+            startActivity(intent);
+        } else if (item.getItemId() == R.id.menu_product_report) {
+            Toast.makeText(CategoryManagementActivity.this, "Xem báo cáo sản phẩm", Toast.LENGTH_LONG).show();
+        } else if (item.getItemId() == R.id.menu_help) {
+            Toast.makeText(CategoryManagementActivity.this, "Mở website hướng dẫn sử dụng", Toast.LENGTH_LONG).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
