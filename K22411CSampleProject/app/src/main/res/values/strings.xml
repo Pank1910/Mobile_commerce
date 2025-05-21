@@ -67,5 +67,26 @@
     <string name="title_category">Category</string>
     <string name="title_product">Product</string>
     <string name="title_advancedproduct">Advanced Product</string>
+    <string name="title_new_customer">New Customer</string>
+    <string name="title_broadcast_advertising">Boardcast Advertising</string>
+    <string name="title_help">Help</string>
+    <string name="title_customer_details">Customer Detals</string>
+    <string name="title_customer_id">Customer ID:</string>
+    <string name="title_customer_name">Customer Name:\n</string>
+    <string name="title_customer_email">Customer Email:</string>
+    <string name="title_customer_phone">Customer Phone:</string>
+    <string name="title_new">New</string>
+    <string name="title_save">Save</string>
+    <string name="title_remove">Remove</string>
+    <string name="title_new_product">New Product</string>
+    <string name="title_product_report">Product Report</string>
+    <string name="title_product_details">Product Details</string>
+    <string name="title_product_id">Product ID:</string>
+    <string name="title_product_name">Product Name:</string>
+    <string name="title_product_quantity">Product Quantity:</string>
+    <string name="title_product_price">Product Price:</string>
+    <string name="title_product_category">Product Category:</string>
+    <string name="title_product_description">Product Description:</string>
+    <string name="title_product_image">Product Image</string>
 
 </resources>
