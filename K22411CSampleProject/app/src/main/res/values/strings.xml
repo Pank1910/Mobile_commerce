@@ -66,5 +66,6 @@
     </string>
     <string name="title_category">Category</string>
     <string name="title_product">Product</string>
+    <string name="title_advancedproduct">Advanced Product</string>
 
 </resources>
