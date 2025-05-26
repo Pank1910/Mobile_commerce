@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     TextView txtCategory;
     ImageView imgProduct;
     TextView txtProduct;
+    ImageView imgAdvancedProduct;
+    TextView txtAdvancedProduct;
 
 
 
@@ -90,6 +92,18 @@ public class MainActivity extends AppCompatActivity {
 //                openProductManagementActivity();
             }
         });
+        imgAdvancedProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAdvancedProductManagementActivity();
+            }
+        });
+        txtAdvancedProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAdvancedProductManagementActivity();
+            }
+        });
     }
     void openEmployeeManagementActivity()
     {
@@ -107,11 +121,11 @@ public class MainActivity extends AppCompatActivity {
         Intent intent=new Intent(MainActivity.this, CategoryManagementActivity.class);
         startActivity(intent);
     }
-//    void openProductManagementActivity()
-//    {
-//        Intent intent=new Intent(MainActivity.this, ProductManagementActivity.class);
-//        startActivity(intent);
-//    }
+    void openAdvancedProductManagementActivity()
+    {
+        Intent intent=new Intent(MainActivity.this, AdvancedProductManagementActivity.class);
+        startActivity(intent);
+    }
 
     private void addViews() {
         imgEmployee=findViewById(R.id.imgEmployee);
@@ -120,7 +134,9 @@ public class MainActivity extends AppCompatActivity {
         txtCustomer=findViewById(R.id.txtCustomer);
         imgCategory=findViewById(R.id.imgCategory);
         txtCategory=findViewById(R.id.txtCategory);
-        imgProduct=findViewById(R.id.imgProduct);
-        txtProduct=findViewById(R.id.txtProduct);
+        imgProduct=findViewById(R.id.imgAdvancedProduct);
+        txtProduct=findViewById(R.id.txtAdvancedProduct);
+        imgAdvancedProduct=findViewById(R.id.imgAdvancedProduct);
+        txtAdvancedProduct=findViewById(R.id.txtAdvancedProduct);
     }
 }

@@ -37,4 +37,13 @@ public class CustomerConnector {
         }
         return results;
     }
+    public boolean isExist(Customer c)
+    {
+        return listCustomer.isExist(c);
+    }
+
+    public void addCustomer(Customer c)
+    {
+        listCustomer.addCustomer(c);
+    }
 }
