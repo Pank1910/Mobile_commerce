@@ -92,13 +92,13 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/imgProduct"
+                    android:id="@+id/imgAdvancedProduct"
                     android:layout_width="match_parent"
                     android:layout_height="117dp"
                     app:srcCompat="@mipmap/ic_logo_winsnack" />
 
                 <TextView
-                    android:id="@+id/txtProduct"
+                    android:id="@+id/txtAdvancedProduct"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/title_advancedproduct"
