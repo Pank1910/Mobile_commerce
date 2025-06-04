@@ -88,5 +88,7 @@
     <string name="title_product_category">Product Category:</string>
     <string name="title_product_description">Product Description:</string>
     <string name="title_product_image">Product Image</string>
+    <string name="title_payment_method">Payment Method</string>
+    <string name="title_orders">Orders</string>
 
 </resources>

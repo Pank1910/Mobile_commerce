@@ -22,8 +22,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.anhnlp.connectors.CustomerConnector;
+import com.anhnlp.connectors.SQLiteConnector;
 import com.anhnlp.models.Customer;
+import com.anhnlp.models.ListCustomer;
 import com.anhnlp.models.Product;
+
+import java.util.List;
 
 public class CustomerManagementActivity extends AppCompatActivity {
 
@@ -88,7 +92,9 @@ public class CustomerManagementActivity extends AppCompatActivity {
         adapter=new ArrayAdapter<>(CustomerManagementActivity.this,
                 android.R.layout.simple_list_item_1);
         connector=new CustomerConnector();
-        adapter.addAll(connector.get_all_customers());
+//        nạp lại dữ liệu thật từ csdl
+        ListCustomer lc= connector.getAllCustomers(new SQLiteConnector(this).openDatabase());
+        adapter.addAll(lc.getCustomers());
 //        đổ điện vô cục sạc -> cục sạc vô laptop
         lvCustomer.setAdapter(adapter);
 
