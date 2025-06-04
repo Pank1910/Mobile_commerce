@@ -37,7 +37,7 @@ public class PaymentMethodActivity extends AppCompatActivity {
         adapter=new PaymentMethodAdapter(PaymentMethodActivity.this,R.layout.item_paymentmethod);
         lvPaymentMethod.setAdapter(adapter);
         lpm=new ListPaymentMethod();
-        lpm.gen_payments_method();
+//        lpm.gen_payments_method();
 //        adapter.addAll(lpm.getPaymentMethods());
         // Load dữ liệu từ database
         SQLiteConnector connector = new SQLiteConnector(this);
