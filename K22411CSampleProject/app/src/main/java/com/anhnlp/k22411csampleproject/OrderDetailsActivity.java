@@ -8,20 +8,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.anhnlp.adapters.OrderDetailsAdapter;
 import com.anhnlp.connectors.OrderDetailsConnector;
 import com.anhnlp.connectors.SQLiteConnector;
 import com.anhnlp.models.OrderDetailsViewer;
 
+import java.util.ArrayList;
+
 public class OrderDetailsActivity extends AppCompatActivity {
 
-    TextView txtOrderIdLabel, txtOrderId;
-    TextView txtProductIdLabel, txtProductId;
-    TextView txtQuantityLabel, txtQuantity;
-    TextView txtPriceLabel, txtPrice;
-    TextView txtDiscountLabel, txtDiscount;
-    TextView txtVATLabel, txtVAT;
-    TextView txtTotalValueLabel, txtTotalValue;
+    RecyclerView rvOrderDetails;
+    OrderDetailsAdapter adapter;
+    TextView txtOrderIdHeader, txtTotalValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,35 +38,25 @@ public class OrderDetailsActivity extends AppCompatActivity {
     }
 
     private void addViews() {
-        txtOrderIdLabel = findViewById(R.id.txtOrderIdLabel);
-        txtOrderId = findViewById(R.id.txtOrderId);
-        txtProductIdLabel = findViewById(R.id.txtProductIdLabel);
-        txtProductId = findViewById(R.id.txtProductId);
-        txtQuantityLabel = findViewById(R.id.txtQuantityLabel);
-        txtQuantity = findViewById(R.id.txtQuantity);
-        txtPriceLabel = findViewById(R.id.txtPriceLabel);
-        txtPrice = findViewById(R.id.txtPrice);
-        txtDiscountLabel = findViewById(R.id.txtDiscountLabel);
-        txtDiscount = findViewById(R.id.txtDiscount);
-        txtVATLabel = findViewById(R.id.txtVATLabel);
-        txtVAT = findViewById(R.id.txtVAT);
-        txtTotalValueLabel = findViewById(R.id.txtTotalValueLabel);
+        rvOrderDetails = findViewById(R.id.rvOrderDetails);
+        txtOrderIdHeader = findViewById(R.id.txtOrderIdHeader);
         txtTotalValue = findViewById(R.id.txtTotalValue);
+
+        rvOrderDetails.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new OrderDetailsAdapter();
+        rvOrderDetails.setAdapter(adapter);
 
         int orderId = getIntent().getIntExtra("ORDER_ID", -1);
         if (orderId != -1) {
+            txtOrderIdHeader.setText("Order ID: " + orderId);
             SQLiteConnector connector = new SQLiteConnector(this);
             OrderDetailsConnector odc = new OrderDetailsConnector();
-            OrderDetailsViewer details = odc.getOrderDetails(connector.openDatabase(), orderId);
-            if (details != null) {
-                txtOrderId.setText(String.valueOf(details.getOrderId()));
-                txtProductId.setText(String.valueOf(details.getProductId()));
-                txtQuantity.setText(String.valueOf(details.getQuantity()));
-                txtPrice.setText(String.valueOf(details.getPrice()) + " VND");
-                txtDiscount.setText(String.valueOf(details.getDiscount()) + "%");
-                txtVAT.setText(String.valueOf(details.getVAT()) + "%");
-                txtTotalValue.setText(String.valueOf(details.getTotalValue()) + " VND");
-            }
+            ArrayList<OrderDetailsViewer> detailsList = odc.getOrderDetails(connector.openDatabase(), orderId);
+            adapter.setDetailsList(detailsList);
+
+            // Tính và hiển thị tổng TotalValue
+            double totalValue = detailsList.stream().mapToDouble(OrderDetailsViewer::getTotalValue).sum();
+            txtTotalValue.setText("Total Value: " + String.valueOf(totalValue) + " VND");
         }
     }
 }
