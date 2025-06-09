@@ -120,6 +120,18 @@ public class MainActivity extends AppCompatActivity {
                 openPaymentMethodActivity();
             }
         });
+        imgOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openOrdersViewerActivity();
+            }
+        });
+        txtOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openOrdersViewerActivity();
+            }
+        });
     }
 
     private void openPaymentMethodActivity() {
@@ -146,6 +158,11 @@ public class MainActivity extends AppCompatActivity {
     void openAdvancedProductManagementActivity()
     {
         Intent intent=new Intent(MainActivity.this, AdvancedProductManagementActivity.class);
+        startActivity(intent);
+    }
+    void openOrdersViewerActivity()
+    {
+        Intent intent=new Intent(MainActivity.this, OrdersViewerActivity.class);
         startActivity(intent);
     }
 
