@@ -90,5 +90,6 @@
     <string name="title_product_image">Product Image</string>
     <string name="title_payment_method">Payment Method</string>
     <string name="title_orders">Orders</string>
+    <string name="title_telephony">Telephony</string>
 
 </resources>
