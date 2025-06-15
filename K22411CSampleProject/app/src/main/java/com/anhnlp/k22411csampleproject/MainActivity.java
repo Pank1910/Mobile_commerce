@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     TextView txtPaymentMethod;
     ImageView imgOrder;
     TextView txtOrder;
+    ImageView imgTelephony;
+    TextView txtTelephony;
 
 
 
@@ -84,18 +86,18 @@ public class MainActivity extends AppCompatActivity {
                 openCategoryManagementActivity();
             }
         });
-        imgProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                openProductManagementActivity();
-            }
-        });
-        txtProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                openProductManagementActivity();
-            }
-        });
+//        imgProduct.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                openProductManagementActivity();
+//            }
+//        });
+//        txtProduct.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                openProductManagementActivity();
+//            }
+//        });
         imgAdvancedProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,6 +134,23 @@ public class MainActivity extends AppCompatActivity {
                 openOrdersViewerActivity();
             }
         });
+        imgTelephony.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openTelephonyActivity();
+            }
+        });
+        txtTelephony.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openTelephonyActivity();
+            }
+        });
+    }
+
+    private void openTelephonyActivity() {
+        Intent intent=new Intent(MainActivity.this, TelephonyActivity.class);
+        startActivity(intent);
     }
 
     private void openPaymentMethodActivity() {
@@ -173,13 +192,15 @@ public class MainActivity extends AppCompatActivity {
         txtCustomer=findViewById(R.id.txtCustomer);
         imgCategory=findViewById(R.id.imgCategory);
         txtCategory=findViewById(R.id.txtCategory);
-        imgProduct=findViewById(R.id.imgAdvancedProduct);
-        txtProduct=findViewById(R.id.txtAdvancedProduct);
+//        imgProduct=findViewById(R.id.imgAdvancedProduct);
+//        txtProduct=findViewById(R.id.txtAdvancedProduct);
         imgAdvancedProduct=findViewById(R.id.imgAdvancedProduct);
         txtAdvancedProduct=findViewById(R.id.txtAdvancedProduct);
         imgPaymentMethod=findViewById(R.id.imgPaymentMethod);
         txtPaymentMethod=findViewById(R.id.txtPaymentMethod);
         imgOrder=findViewById(R.id.imgOrder);
         txtOrder=findViewById(R.id.txtOrder);
+        imgTelephony=findViewById(R.id.imgTelephony);
+        txtTelephony=findViewById(R.id.txtTelephony);
     }
 }
