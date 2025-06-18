@@ -1,16 +1,17 @@
 package com.anhnlp.k22411csampleproject;
 
 import android.Manifest;
+import android.content.ContentProviderOperation;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -22,13 +23,21 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.anhnlp.adapters.TelephonyInforAdapter;
 import com.anhnlp.models.TelephonyInfor;
+import com.anhnlp.k22411csampleproject.R;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class TelephonyActivity extends AppCompatActivity {
     ListView lvTelephony;
-    ArrayAdapter<TelephonyInfor> adapter;
-    private static final int REQUEST_CALL_PHONE = 1;
-    private TelephonyInfor pendingCall; // Lưu thông tin cuộc gọi khi chờ quyền
+    TelephonyInforAdapter adapter;
+    List<TelephonyInfor> allContacts;
+    private static final List<String> VIETTEL_PREFIXES = Arrays.asList("032", "033", "034", "035", "036", "037", "038", "039", "096", "097", "098", "086");
+    private static final List<String> MOBIFONE_PREFIXES = Arrays.asList("070", "077", "078", "079", "089", "090", "093");
+    private static final int REQUEST_WRITE_CONTACTS = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,35 +50,120 @@ public class TelephonyActivity extends AppCompatActivity {
             return insets;
         });
         addViews();
-        // Kiểm tra quyền READ_CONTACTS
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_CONTACTS},
-                    2); // REQUEST_READ_CONTACTS
-        } else {
-            getAllContacts();
-        }
+        allContacts = new ArrayList<>();
+        getAllContacts();
         addEvents();
+        checkAndAddSampleContacts();
+    }
+
+    private void checkAndAddSampleContacts() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_CONTACTS}, REQUEST_WRITE_CONTACTS);
+        } else {
+            addSampleContacts();
+        }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CALL_PHONE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (pendingCall != null) {
-                    makeAPhoneCall(pendingCall);
-                    pendingCall = null;
+        if (requestCode == REQUEST_WRITE_CONTACTS && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            addSampleContacts();
+        } else {
+            Toast.makeText(this, "Cần quyền để thêm liên hệ", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void addSampleContacts() {
+        List<TelephonyInfor> sampleContacts = new ArrayList<>();
+        sampleContacts.add(new TelephonyInfor("Viettel Contact 1", "0981234567"));
+        sampleContacts.add(new TelephonyInfor("Viettel Contact 2", "0977654321"));
+        sampleContacts.add(new TelephonyInfor("MobiFone Contact 1", "0901234567"));
+        sampleContacts.add(new TelephonyInfor("MobiFone Contact 2", "0939876543"));
+        sampleContacts.add(new TelephonyInfor("Vinaphone Contact", "0912345678"));
+        sampleContacts.add(new TelephonyInfor("Vietnamobile Contact", "0923456789"));
+
+        for (TelephonyInfor contact : sampleContacts) {
+            addContactToDevice(contact.getName(), contact.getPhone());
+        }
+        getAllContacts(); // Cập nhật lại danh bạ sau khi thêm
+    }
+
+    private void addContactToDevice(String name, String phone) {
+        ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+        ops.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
+                .build());
+
+        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, name)
+                .build());
+
+        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, phone)
+                .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
+                .build());
+
+        try {
+            getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
+            Toast.makeText(this, "Đã thêm liên hệ: " + name, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Lỗi khi thêm liên hệ: " + name, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_telephony, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        adapter.clear();
+        if (id == R.id.menu_filter_viettel) {
+            filterContactsByNetwork(VIETTEL_PREFIXES);
+            return true;
+        } else if (id == R.id.menu_filter_mobifone) {
+            filterContactsByNetwork(MOBIFONE_PREFIXES);
+            return true;
+        } else if (id == R.id.menu_filter_other) {
+            filterOtherNetworks();
+            return true;
+        } else if (id == R.id.menu_filter_all) {
+            adapter.addAll(allContacts);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void filterContactsByNetwork(List<String> prefixes) {
+        for (TelephonyInfor ti : allContacts) {
+            String phone = ti.getPhone().replaceAll("[^0-9]", "");
+            if (phone.length() >= 10) {
+                String prefix = phone.substring(0, 3);
+                if (prefixes.contains(prefix)) {
+                    adapter.add(ti);
                 }
-            } else {
-                Toast.makeText(this, "Permission denied. Cannot make a phone call.", Toast.LENGTH_SHORT).show();
             }
-        } else if (requestCode == 2) { // REQUEST_READ_CONTACTS
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getAllContacts();
-            } else {
-                Toast.makeText(this, "Permission denied. Cannot read contacts.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void filterOtherNetworks() {
+        for (TelephonyInfor ti : allContacts) {
+            String phone = ti.getPhone().replaceAll("[^0-9]", "");
+            if (phone.length() >= 10) {
+                String prefix = phone.substring(0, 3);
+                if (!VIETTEL_PREFIXES.contains(prefix) && !MOBIFONE_PREFIXES.contains(prefix)) {
+                    adapter.add(ti);
+                }
             }
         }
     }
@@ -77,73 +171,57 @@ public class TelephonyActivity extends AppCompatActivity {
     private void addEvents() {
         lvTelephony.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
-                TelephonyInfor ti = adapter.getItem(i);
-                initiatePhoneCall(ti); // Gọi hàm mới để xử lý quyền
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TelephonyInfor ti = adapter.getItem(position);
+                makeAPhoneCall(ti);
             }
         });
     }
 
-    private void initiatePhoneCall(TelephonyInfor ti) {
-        pendingCall = ti; // Lưu thông tin để sử dụng sau khi quyền được cấp
-        // Kiểm tra quyền CALL_PHONE
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Yêu cầu quyền nếu chưa được cấp
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CALL_PHONE},
-                    REQUEST_CALL_PHONE);
-        } else {
-            // Quyền đã được cấp, thực hiện cuộc gọi
-            makeAPhoneCall(ti);
-        }
-    }
-
     private void makeAPhoneCall(TelephonyInfor ti) {
-        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
-            Toast.makeText(this, "This device does not support phone calls.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        String phoneNumber = ti.getPhone().replaceAll("[^0-9+]", "");
-        if (phoneNumber.isEmpty() || phoneNumber.length() < 7) { // Kiểm tra độ dài tối thiểu
-            Toast.makeText(this, "Invalid phone number: " + ti.getPhone(), Toast.LENGTH_SHORT).show();
-            return;
-        }
-        Log.d("TelephonyActivity", "Calling number: " + phoneNumber); // Log để kiểm tra
-        Uri uri = Uri.parse("tel:" + phoneNumber);
+        Uri uri = Uri.parse("tel:" + ti.getPhone());
         Intent intent = new Intent(Intent.ACTION_CALL);
         intent.setData(uri);
-        try {
-            startActivity(intent);
-        } catch (SecurityException e) {
-            Toast.makeText(this, "Failed to make call: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
+        startActivity(intent);
     }
-
 
     private void getAllContacts() {
         Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
         Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-        adapter.clear();
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                int nameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-                String name = cursor.getString(nameIndex); // Get Name
-                int phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-                String phone = cursor.getString(phoneIndex); // Get Phone Number
 
-                TelephonyInfor ti = new TelephonyInfor();
-                ti.setName(name);
-                ti.setPhone(phone);
-                adapter.add(ti);
-            }
-            cursor.close();
+        adapter.clear();
+        allContacts.clear();
+        while (cursor.moveToNext()) {
+            int nameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+            String name = cursor.getString(nameIndex);
+            int phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+            String phone = cursor.getString(phoneIndex);
+            TelephonyInfor ti = new TelephonyInfor();
+            ti.setName(name);
+            ti.setPhone(phone);
+            allContacts.add(ti);
+            adapter.add(ti);
         }
+        cursor.close();
     }
 
     private void addViews() {
         lvTelephony = findViewById(R.id.lvTelephonyInfor);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        adapter = new TelephonyInforAdapter(this, R.layout.item_telephony_infor);
         lvTelephony.setAdapter(adapter);
+    }
+
+    public void directCall(TelephonyInfor ti) {
+        Uri uri = Uri.parse("tel:" + ti.getPhone());
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(uri);
+        startActivity(intent);
+    }
+
+    public void dialupCall(TelephonyInfor ti) {
+        Uri uri = Uri.parse("tel:" + ti.getPhone());
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(uri);
+        startActivity(intent);
     }
 }

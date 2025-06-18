@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_filter_all"
+        android:title="Tất cả" />
+    <item
+        android:id="@+id/menu_filter_viettel"
+        android:title="Viettel" />
+    <item
+        android:id="@+id/menu_filter_mobifone"
+        android:title="MobiFone" />
+    <item
+        android:id="@+id/menu_filter_other"
+        android:title="Nhà mạng khác" />
+</menu>
