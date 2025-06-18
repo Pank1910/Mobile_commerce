@@ -15,6 +15,15 @@
         app:srcCompat="@mipmap/ic_logo_login" />
 
     <TextView
+        android:id="@+id/tvNetworkStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Checking network..."
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+
+    <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,13 +68,12 @@
 
         <Button
             android:onClick="do_login"
-            android:id="@+id/gtnLogin"
+            android:id="@+id/btnLogin"
             android:layout_width="215dp"
             android:layout_height="wrap_content"
             android:text="@string/title_login_button_login" />
 
         <ImageView
-
             android:onClick="do_exit"
             android:id="@+id/imgExit"
             android:layout_width="wrap_content"
