@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
+import android.util.Log;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.util.Date;
@@ -38,14 +40,16 @@ public class SmsReceiver extends BroadcastReceiver {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference messagesRef = database.getReference("Messages");
         String messageId = messagesRef.push().getKey(); // Tạo ID duy nhất cho tin nhắn
-        messagesRef.child(messageId).setValue(message)
-                .addOnSuccessListener(aVoid -> {
-                    // Thành công
-                    // Bạn có thể thêm thông báo hoặc xử lý tiếp nếu cần
-                })
-                .addOnFailureListener(e -> {
-                    // Xử lý lỗi
-                    // Ví dụ: Log.e("Firebase", "Error: " + e.getMessage());
-                });
+        if (messageId != null) {
+            messagesRef.child(messageId).setValue(message)
+                    .addOnSuccessListener(aVoid -> {
+                        Log.d("SmsReceiver", "Message pushed to Firebase with ID: " + messageId);
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("SmsReceiver", "Failed to push message to Firebase: " + e.getMessage());
+                    });
+        } else {
+            Log.e("SmsReceiver", "Failed to generate message ID");
+        }
     }
 }
