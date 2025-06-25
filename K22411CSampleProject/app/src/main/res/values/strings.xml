@@ -94,5 +94,13 @@
     <string name="title_contact_name">Contact Name:</string>
     <string name="title_telephony_number">Phone Number:</string>
     <string name="title_body">Body:</string>
+    <string name="title_multi_threading">Multi-threading</string>
+    <string name="title_handler_send_message" />
+    <string name="title_handler_send_messages">HANDLER SEND MESSAGE</string>
+    <string name="title_handler_post_messages">HANDLER POST MESSAGE</string>
+    <string name="title_asynctask">ASYNCTASK</string>
+    <string name="title_draw">DRAW</string>
+    <string name="title_number_of_customer">Number of Customer:</string>
+    <string name="btn_load_customer">LOAD CUSTOMER</string>
 
 </resources>
