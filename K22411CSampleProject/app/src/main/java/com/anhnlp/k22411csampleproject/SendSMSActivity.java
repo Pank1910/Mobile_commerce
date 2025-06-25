@@ -35,6 +35,18 @@ public class SendSMSActivity extends AppCompatActivity {
     ImageView imgSendSms2;
     TelephonyInfor ti;
     private static final int REQUEST_SEND_SMS = 3;
+    private static final int REQUEST_RECEIVE_SMS = 4;
+
+    private void requestReceiveSmsPermission() {
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.RECEIVE_SMS},
+                REQUEST_RECEIVE_SMS);
+    }
+
+    private boolean checkReceiveSmsPermission() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS)
+                == PackageManager.PERMISSION_GRANTED;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +54,11 @@ public class SendSMSActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_send_smsactivity);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        // Kiểm tra và yêu cầu quyền RECEIVE_SMS
+        if (!checkReceiveSmsPermission()) {
+            requestReceiveSmsPermission();
+        }
+
         addViews();
         addEvents();
     }
@@ -103,10 +115,15 @@ public class SendSMSActivity extends AppCompatActivity {
         if (requestCode == REQUEST_SEND_SMS) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Quyền gửi SMS đã được cấp.", Toast.LENGTH_SHORT).show();
-                // Gửi SMS sau khi quyền được cấp
                 sendSms(ti, edtBody.getText().toString());
             } else {
                 Toast.makeText(this, "Quyền gửi SMS bị từ chối.", Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == REQUEST_RECEIVE_SMS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Quyền nhận SMS đã được cấp.", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Quyền nhận SMS bị từ chối.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -157,6 +174,7 @@ public class SendSMSActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
 
     @Override
     protected void onDestroy() {

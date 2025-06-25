@@ -11,6 +11,15 @@
         android:id="@+id/menu_filter_mobifone"
         android:title="MobiFone" />
     <item
+        android:id="@+id/menu_filter_vinaphone"
+        android:title="Vinaphone" />
+    <item
+        android:id="@+id/menu_filter_vietnamobile"
+        android:title="Vietnamobile" />
+    <item
+        android:id="@+id/menu_filter_gmobile"
+        android:title="Gmobile" />
+    <item
         android:id="@+id/menu_filter_other"
         android:title="Nhà mạng khác" />
 </menu>

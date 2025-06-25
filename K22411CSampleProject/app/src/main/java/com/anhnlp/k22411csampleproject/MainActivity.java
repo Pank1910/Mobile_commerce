@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     TextView txtOrder;
     ImageView imgTelephony;
     TextView txtTelephony;
+    ImageView imgMultiThreading;
+    TextView txtMultiThreading;
 
 
 
@@ -146,6 +148,23 @@ public class MainActivity extends AppCompatActivity {
                 openTelephonyActivity();
             }
         });
+        imgMultiThreading.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMultiThreadingCategoriesActivity();
+            }
+        });
+        txtMultiThreading.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMultiThreadingCategoriesActivity();
+            }
+        });
+    }
+
+    private void openMultiThreadingCategoriesActivity() {
+        Intent intent=new Intent(MainActivity.this, MultiThreadingCategoriesActivity.class);
+        startActivity(intent);
     }
 
     private void openTelephonyActivity() {
@@ -202,5 +221,7 @@ public class MainActivity extends AppCompatActivity {
         txtOrder=findViewById(R.id.txtOrder);
         imgTelephony=findViewById(R.id.imgTelephony);
         txtTelephony=findViewById(R.id.txtTelephony);
+        imgMultiThreading=findViewById(R.id.imgMultiThreading);
+        txtMultiThreading=findViewById(R.id.txtMultiThreading);
     }
 }
